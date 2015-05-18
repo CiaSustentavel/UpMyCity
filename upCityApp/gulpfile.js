@@ -16,12 +16,12 @@ var paths = {
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./www/scss/ionic.app.scss')
-    .pipe(sourcemaps.init())
+  gulp.src('./scss/ionic.app.scss')
+//    .pipe(sourcemaps.init())
     .pipe(sass({
       errLogToConsole: true
     }))
-    .pipe(sourcemaps.write())
+//    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss({
       keepSpecialComments: 0

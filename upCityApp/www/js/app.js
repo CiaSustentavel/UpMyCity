@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic', 'firebase'])
     .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -263,7 +263,7 @@ angular.module('starter')
     .controller('GalleryCtrl', App.GalleryCtrl);
 var login;
 (function (login) {
-    login.html = '<ion-view view-title="Login" align-title="left">    <ion-content style="background: url(img/login.jpg) center; background-size: cover;">        <div class="hero no-header flat">            <div class="content">                <div class="app-icon"></div>                <h1>UP MY CITY</h1>            </div>        </div>        <div class="list">            <ion-md-input placeholder="Username" highlight-color="balanced" type="text"></ion-md-input>            <ion-md-input placeholder="Password" highlight-color="energized" type="password"></ion-md-input>        </div>        <div class="padding">            <button ui-sref="app.profile" class="button button-full button-assertive ink">Login</button>        </div>        <div class="button-bar social-login">            <button class="button button-small button-border icon-left ion-social-google button-assertive-900">Google+</button>            <button class="button button-small button-border icon-left ion-social-twitter button-calm-900">Twitter</button>            <button class="button button-small button-border icon-left ion-social-facebook button-positive-900">Facebook</button>        </div>    </ion-content></ion-view>';
+    login.html = '<ion-view view-title="Login" align-title="left">    <ion-content style="background: url(img/login.jpg) center; background-size: cover;">        <div class="hero no-header flat">            <div class="content">                <div class="app-icon"></div>                <h1>Thronester</h1>            </div>        </div>        <div class="list">            <ion-md-input placeholder="Username" highlight-color="balanced" type="text"></ion-md-input>            <ion-md-input placeholder="Password" highlight-color="energized" type="password"></ion-md-input>        </div>        <div class="padding">            <button ui-sref="app.profile" class="button button-full button-assertive ink">Login</button>        </div>        <div class="button-bar social-login">            <button class="button button-small button-border icon-left ion-social-google button-assertive-900">Google+</button>            <button class="button button-small button-border icon-left ion-social-twitter button-calm-900">Twitter</button>            <button class="button button-small button-border icon-left ion-social-facebook button-positive-900">Facebook</button>        </div>    </ion-content></ion-view>';
 })(login || (login = {}));
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../Menu/menu.ts" />
@@ -303,7 +303,7 @@ angular.module('starter')
     .controller('LoginCtrl', App.LoginCtrl);
 var profile;
 (function (profile) {
-    profile.html = '<ion-view view-title="Profile">    <ion-content ng-class="{expanded:profile.isExpanded}">        <div class="hero slide-up" style="background-image: url(\'img/profile-bg.jpg\');">            <div class="content">                <div class="avatar" style="background-image: url(\'img/daenerys.jpg\');"></div>                <h3><a class="light">Daenerys Targaryen</a></h3>                <h4>dragon_mommy</h4>            </div>        </div>        <div class="tabs tabs-dark tabs-icon-top static">            <a ui-sref="app.activity" class="tab-item">                <i class="icon ion-arrow-graph-up-right"></i> Activity            </a>            <a ui-sref="app.friends" class="tab-item">                <i class="icon ion-android-people"></i> Friends            </a>            <a ui-sref="app.gallery" class="tab-item">                <i class="icon ion-images"></i> Photos            </a>        </div>        <h4 class="content padding double-padding-x">Following</h4>        <div class="list animate-fade-slide-in-right">            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/jon-snow.jpg">                <h2>Jon Snow</h2>                <p>Da illest illegitimate</p>                <i class="icon ion-chatbubble muted"></i>            </a>            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/sansa.jpg">                <h2>Sansa Stark</h2>                <p>&amp; Joffrey <strike>sitting</strike> sat in a tree</p>                <i class="icon ion-chatbubble muted"></i>            </a>            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/tyrion.jpg">                <h2>Tyrion Lannister</h2>                <p>B.A.M.F. imp</p>                <i class="icon ion-chatbubble muted"></i>            </a>        </div>    </ion-content></ion-view>';
+    profile.html = '<ion-view view-title="Profile">    <ion-content ng-class="{expanded:profile.isExpanded}">        <div class="hero slide-up" style="background-image: url(\'img/ne_cearafortaleza0098.jpg\');">            <div class="content">                <div class="avatar" style="background-image: url(\'img/9.jpg\');"></div>                <h3><a class="light">Mandy Woods</a></h3>            </div>        </div>        <div class="tabs tabs-dark tabs-icon-top static">            <a ui-sref="app.activity" class="tab-item">                <i class="icon ion-arrow-graph-up-right"></i> Activity            </a>            <a ui-sref="app.friends" class="tab-item">                <i class="icon ion-android-people muted"></i> Friends            </a>            <a ui-sref="app.gallery" class="tab-item">                <i class="icon ion-images muted"></i> Photos            </a>        </div>        <h4 class="content padding double-padding-x">My City <i class="icon ion-location muted"></i></h4>        <div class="list animate-fade-slide-in-right">            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/o-TRAFFIC-JAM-facebook.jpg">                <h2>Praça Portugal</h2>                <p>Via Bicicletas</p>                <i class="icon ion-android-bicycle muted"></i>            </a>            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/onibus.jpg">                <h2>Rampa de acesso</h2>                <p>Transporte Publico</p>                <i class="icon ion-android-bus muted"></i>            </a>            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/praça1.jpg">                <h2>Calçada deteriorada</h2>                <p>Pracas</p>                <i class="icon ion-qr-scanner muted"></i>            </a>        </div>    </ion-content></ion-view>';
 })(profile || (profile = {}));
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../Menu/menu.ts" />
@@ -370,4 +370,25 @@ angular.module('starter')
     .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/app/login');
 });
+/// <reference path="../../typings/tsd.d.ts" />
+var App;
+(function (App) {
+    FireBaseData.$inject = ['$firebase'];
+    function FireBaseData($firebase) {
+        var ref = new Firebase("https://luminous-fire-3429.firebaseio.com/"), refExpenses = new Firebase("https://luminous-fire-3429.firebaseio.com/expenses"), refRoomMates = new Firebase("https://luminous-fire-3429.firebaseio.com/room-mates");
+        return {
+            ref: function () {
+                return ref;
+            },
+            refExpenses: function () {
+                return refExpenses;
+            },
+            refRoomMates: function () {
+                return refRoomMates;
+            }
+        };
+    }
+    App.FireBaseData = FireBaseData;
+    angular.module('starter').factory('FireBaseData', FireBaseData);
+})(App || (App = {}));
 //# sourceMappingURL=app.js.map
