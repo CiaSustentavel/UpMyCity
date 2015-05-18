@@ -4,7 +4,7 @@ declare var StatusBar:any;
 interface Window { cordova:any; StatusBar:any; }
 
 //create single module
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic', 'firebase'])
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

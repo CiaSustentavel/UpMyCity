@@ -16,6 +16,12 @@
     },
     "jquery/jquery.d.ts": {
       "commit": "7d2f0aa875cc3bc41f3567e3ff99d344df986155"
+    },
+    "angularfire/angularfire.d.ts": {
+      "commit": "7d2f0aa875cc3bc41f3567e3ff99d344df986155"
+    },
+    "firebase/firebase.d.ts": {
+      "commit": "7d2f0aa875cc3bc41f3567e3ff99d344df986155"
     }
   }
 }
