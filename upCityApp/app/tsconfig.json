@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+        "target":"ES5",
+		"preserveConstEnums": true,
+        "out": "./www/js/app.js",
+        "sourceMap": true,
+        "removeComments":true
+    }
+}

@@ -1,41 +1,151 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
-
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-    
-    $stateProvider
-    .state('app', {
+angular.module('starter', ['ionic'])
+    .run(function ($ionicPlatform) {
+    $ionicPlatform.ready(function () {
+        if (window.cordova && window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        }
+        if (window.StatusBar) {
+            StatusBar.styleDefault();
+        }
+    });
+});
+var menu;
+(function (menu) {
+    menu.html = '<ion-side-menus enable-menu-with-back-views="true">    <ion-side-menu-content>        <ion-nav-bar class="bar-assertive-900" ng-class="{expanded: menu.isExpanded, \'has-header-fab-left\': menu.hasHeaderFabLeft, \'has-header-fab-right\': menu.hasHeaderFabRight}" align-title="left">            <ion-nav-back-button class="no-text">            </ion-nav-back-button>            <ion-nav-buttons side="right">                <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">                </button>            </ion-nav-buttons>        </ion-nav-bar>        <ion-nav-view name="fabContent"></ion-nav-view>        <ion-nav-view name="menuContent" ng-class="{expanded: menu.isExpanded}" ></ion-nav-view>    </ion-side-menu-content>    <ion-side-menu side="right">        <ion-header-bar class="dark-bg expanded">            <span class="avatar" style="background: url(\'img/crown.jpg\'); background-size: cover;"></span>            <h2>Thronester</h2>        </ion-header-bar>        <ion-content class="stable-bg has-expanded-header">            <ion-list>                <ion-item nav-clear menu-close ui-sref="app.activity">                    Activity                </ion-item>                <ion-item nav-clear menu-close ui-sref="app.login">                    Login                </ion-item>                <ion-item nav-clear menu-close ui-sref="app.profile">                    Profile                </ion-item>                <ion-item nav-clear menu-close ui-sref="app.friends">                    Friends                </ion-item>                <ion-item nav-clear menu-close ui-sref="app.gallery">                    Gallery                </ion-item>            </ion-list>        </ion-content>    </ion-side-menu></ion-side-menus>';
+})(menu || (menu = {}));
+/// <reference path="../../typings/tsd.d.ts" />
+var App;
+(function (App) {
+    var MenuCtrl = (function () {
+        function MenuCtrl() {
+            this.loginData = {};
+            this.loginData = {};
+            this.isExpanded = false;
+            this.hasHeaderFabLeft = false;
+            this.hasHeaderFabRight = false;
+            var navIcons = document.getElementsByClassName('ion-navicon');
+            var activeToggle = function (e) { this.classList.toggle('active'); };
+            for (var i = 0; i < navIcons.length; i++) {
+                navIcons[i].addEventListener('click', activeToggle);
+            }
+        }
+        MenuCtrl.prototype._firtElem = function (tagName) {
+            return document.getElementsByTagName(tagName)[0];
+        };
+        MenuCtrl.prototype.hideNavBar = function () {
+            this._firtElem('ion-nav-bar').style.display = 'none';
+        };
+        MenuCtrl.prototype.showNavBar = function () {
+            this._firtElem('ion-nav-bar').style.display = 'block';
+        };
+        MenuCtrl.prototype.noHeader = function () {
+            var content = document.getElementsByTagName('ion-content');
+            for (var i = 0; i < content.length; i++) {
+                var el = content[i];
+                if (el.classList.contains('has-header')) {
+                    el.classList.toggle('has-header');
+                }
+            }
+        };
+        MenuCtrl.prototype.setExpanded = function (_bool) {
+            this.isExpanded = _bool;
+        };
+        MenuCtrl.prototype.setHeaderFab = function (_location) {
+            var hasHeaderFabLeft = false;
+            var hasHeaderFabRight = false;
+            switch (_location) {
+                case 'left':
+                    hasHeaderFabLeft = true;
+                    break;
+                case 'right':
+                    hasHeaderFabRight = true;
+                    break;
+            }
+            this.hasHeaderFabLeft = hasHeaderFabLeft;
+            this.hasHeaderFabRight = hasHeaderFabRight;
+        };
+        MenuCtrl.prototype.hasHeader = function () {
+            var content = document.getElementsByTagName('ion-content');
+            for (var i = 0; i < content.length; i++) {
+                var el = content[i];
+                if (!el.classList.contains('has-header')) {
+                    el.classList.toggle('has-header');
+                }
+            }
+        };
+        MenuCtrl.prototype.hideHeader = function () {
+            this.hideNavBar();
+            this.noHeader();
+        };
+        MenuCtrl.prototype.showHeader = function () {
+            this.showNavBar();
+            this.hasHeader();
+        };
+        MenuCtrl.prototype.clearFabs = function () {
+            var fab = this._firtElem('button-fab');
+            if (fab) {
+                fab.remove();
+            }
+        };
+        MenuCtrl.$inject = [];
+        return MenuCtrl;
+    })();
+    App.MenuCtrl = MenuCtrl;
+})(App || (App = {}));
+/// <reference path="menu.html.ts" />
+/// <reference path="menu-ctrl.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+angular.module('starter')
+    .config(function ($stateProvider) {
+    $stateProvider.state('app', {
         url: '/app',
         abstract: true,
-        templateUrl: 'templates/menu.html',
-        controller: 'AppCtrl'
-    })
-
-    .state('app.activity', {
+        template: menu.html,
+        controller: 'MenuCtrl as menu'
+    });
+})
+    .controller('MenuCtrl', App.MenuCtrl);
+var activity;
+(function (activity) {
+    activity.html = '<ion-view view-title="Activity">    <ion-content ng-class="{expanded:activity.isExpanded}" class="animate-fade-slide-in">        <div class="item card-item">            <div ui-sref="app.gallery" class="card stable-bg ink ink-dark">                <div class="item item-avatar item-text-wrap">                    <span class="avatar" style="background-image: url(\'img/jon-snow.jpg\');"></span>                    <strong>Jon Snow</strong> knows nothing.                    <div class="card-footer text-right">                        <i class="icon ion-chatbubbles positive"></i> 6                        <i class="icon ion-heart assertive"></i> 23                        <div class="pull-left">                            <i class="icon ion-clock"></i> just now                        </div>                    </div>                </div>            </div>        </div>        <div class="item card-item">            <div ui-sref="app.gallery" class="card stable-bg ink ink-dark">                <div class="item item-avatar item-text-wrap">                    <span class="avatar" style="background-image: url(\'img/tyrion.jpg\');"></span>                    <strong>Tyrion Lannister</strong> says "Perhaps that is the secret. It is not what we do, so much as why we do it."                    <div class="card-footer text-right">                        <i class="icon ion-chatbubble positive"></i> 2                        <i class="icon ion-heart assertive"></i> 4                        <div class="pull-left">                            <i class="icon ion-clock"></i> 12 mins ago                        </div>                    </div>                </div>            </div>        </div>        <div class="item card-item">            <div ui-sref="app.gallery" class="card stable-bg ink ink-dark">                <div class="item item-avatar item-text-wrap">                    <span class="avatar" style="background-image: url(\'img/sansa.jpg\');"></span>                    <strong>Sansa Stark</strong> added a gallery <strong>Pretending to be Anna from Frozen</strong> ...                    <a class="image"><img src="img/sansa-snowcastle.png">                    </a>                    <a class="image"><img src="img/sansa-snowcastle2.jpg">                    </a>                    <a class="image"><img src="img/sansa-snowcastle3.jpg">                    </a>                    <div class="card-footer text-right">                        <i class="icon ion-chatbubble positive"></i> 2                        <i class="icon ion-heart assertive"></i> 4                        <div class="pull-left">                            <i class="icon ion-clock"></i> 3 hrs ago                        </div>                    </div>                </div>            </div>        </div>    </ion-content></ion-view>';
+})(activity || (activity = {}));
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../Menu/menu.ts" />
+var App;
+(function (App) {
+    'use strict';
+    var ActivityCtrl = (function () {
+        function ActivityCtrl($scope, $timeout) {
+            $scope.menu.showHeader();
+            $scope.menu.clearFabs();
+            $scope.isExpanded = true;
+            $scope.menu.setExpanded(true);
+            $scope.menu.setHeaderFab('right');
+            $timeout(function () {
+                return ionic.material.motion.fadeSlideIn({
+                    selector: '.animate-fade-slide-in .item'
+                });
+            }, 200);
+            ionic.material.ink.displayEffect();
+        }
+        ActivityCtrl.$inject = ['$scope', '$timeout'];
+        return ActivityCtrl;
+    })();
+    App.ActivityCtrl = ActivityCtrl;
+})(App || (App = {}));
+/// <reference path="activity.html.ts" />
+/// <reference path="activity-ctrl.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+angular.module('starter')
+    .config(function ($stateProvider) {
+    $stateProvider.state('app.activity', {
         url: '/activity',
         views: {
             'menuContent': {
-                templateUrl: 'templates/activity.html',
-                controller: 'ActivityCtrl'
+                template: activity.html,
+                controller: 'ActivityCtrl as activity'
             },
             'fabContent': {
                 template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 flap"><i class="icon ion-paper-airplane"></i></button>',
@@ -46,14 +156,46 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         }
-    })
-
-    .state('app.friends', {
+    });
+})
+    .controller('ActivityCtrl', App.ActivityCtrl);
+var friends;
+(function (friends) {
+    friends.html = '<ion-view view-title="Friends">    <ion-content ng-class="{expanded:friend.isExpanded}">        <div class="content has-header">            <div class="list animate-fade-slide-in-right">                <a href="#/app/profile" class="item item-avatar item-icon-right">                    <img src="img/jon-snow.jpg">                    <h2>Jon Snow</h2>                    <p>Da illest illegitimate</p>                    <i class="icon ion-chatbubble muted"></i>                </a>                <a href="#/app/profile" class="item item-avatar item-icon-right">                    <img src="img/daenerys.jpg">                    <h2>Daenerys Targaryen</h2>                    <p>Dragon mommy</p>                    <i class="icon ion-chatbubble muted"></i>                </a>                <a href="#/app/profile" class="item item-avatar item-icon-right">                    <img src="img/arya.jpg">                    <h2>Arya Stark</h2>                    <p>Is Chuck Norris\' fear</p>                    <i class="icon ion-chatbubble muted"></i>                </a>                <a href="#/app/profile" class="item item-avatar item-icon-right">                    <img src="img/sansa.jpg">                    <h2>Sansa Stark</h2>                    <p>&amp; Joffrey <strike>sitting</strike> sat in a tree</p>                    <i class="icon ion-chatbubble muted"></i>                </a>                <a href="#/app/profile" class="item item-avatar item-icon-right">                    <img src="img/tyrion.jpg">                    <h2>Tyrion Lannister</h2>                    <p>B.A.M.F. imp</p>                    <i class="icon ion-chatbubble muted"></i>                </a>            </div>        </div>    </ion-content></ion-view>';
+})(friends || (friends = {}));
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../Menu/menu.ts" />
+var App;
+(function (App) {
+    var FriendsCtrl = (function () {
+        function FriendsCtrl($scope, $stateParams, $timeout) {
+            $scope.menu.showHeader();
+            $scope.menu.clearFabs();
+            $scope.menu.setHeaderFab('left');
+            $timeout(function () {
+                $scope.isExpanded = true;
+                $scope.menu.setExpanded(true);
+            }, 300);
+            ionic.material.motion.fadeSlideInRight();
+            ionic.material.ink.displayEffect();
+        }
+        FriendsCtrl.$inject = ['$scope', '$stateParams', '$timeout'];
+        return FriendsCtrl;
+    })();
+    App.FriendsCtrl = FriendsCtrl;
+})(App || (App = {}));
+/// <reference path="friends.html.ts" />
+/// <reference path="friends-ctrl.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+angular.module('starter')
+    .config(function ($stateProvider) {
+    $stateProvider.state('app.friends', {
         url: '/friends',
         views: {
             'menuContent': {
-                templateUrl: 'templates/friends.html',
-                controller: 'FriendsCtrl'
+                template: friends.html,
+                controller: 'FriendsCtrl as friend'
             },
             'fabContent': {
                 template: '<button id="fab-friends" class="button button-fab button-fab-top-left expanded button-energized-900 spin"><i class="icon ion-chatbubbles"></i></button>',
@@ -61,17 +203,52 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                     $timeout(function () {
                         document.getElementById('fab-friends').classList.toggle('on');
                     }, 900);
-                }
-            }
+                } }
         }
-    })
-
-    .state('app.gallery', {
+    });
+})
+    .controller('FriendsCtrl', App.FriendsCtrl);
+var gallery;
+(function (gallery) {
+    gallery.html = '<ion-view view-title="Gallery">    <ion-content ng-class="{expanded:gallery.isExpanded}" class="animate-fade-slide-in">        <div class="list half">            <div ui-sref="app.profile" class="card card-gallery item item-text-wrap">                <div class="ink dark-bg">                    <h2>Where\'s Elsa?</h2>                    <img class="full-image" src="img/sansa-snowcastle3.jpg">                </div>                <div class="item tabs tabs-secondary tabs-icon-left">                    <a class="tab-item stable-bg assertive">                        <i class="icon ion-heart"></i>                        4                    </a>                    <a class="tab-item stable-bg positive-900">                        <i class="icon ion-chatbubbles"></i>                        2                    </a>                </div>            </div>            <div ui-sref="app.profile" class="card card-gallery item item-text-wrap">                <div class="ink dark-bg">                    <h2>Hmm. Hope nobody destroys this!</h2>                    <img class="full-image" src="img/sansa-snowcastle.png">                </div>                <div class="item tabs tabs-secondary tabs-icon-left">                    <a class="tab-item stable-bg assertive">                        <i class="icon ion-heart"></i>                        6                    </a>                    <a class="tab-item stable-bg positive-900">                        <i class="icon ion-chatbubbles"></i>                        1                    </a>                </div>            </div>        </div>        <div class="list half">            <div ui-sref="app.profile" class="card card-gallery item item-text-wrap">                <div class="ink dark-bg">                    <h2>Making Olaf a House</h2>                    <img class="full-image" src="img/sansa-snowcastle2.jpg">                </div>                <div class="item tabs tabs-secondary tabs-icon-left">                    <a class="tab-item stable-bg assertive">                        <i class="icon ion-heart"></i>                        22                    </a>                    <a class="tab-item stable-bg positive-900">                        <i class="icon ion-chatbubbles"></i>                        9                    </a>                </div>            </div>            <div ui-sref="app.profile" class="card card-gallery item item-text-wrap">                <div class="ink dark-bg">                    <h2>ohai!</h2>                    <img class="full-image" src="img/sansa-snowcastle4.jpg">                </div>                <div class="item tabs tabs-secondary tabs-icon-left">                    <a class="tab-item stable-bg assertive">                        <i class="icon ion-heart"></i>                        8                    </a>                    <a class="tab-item stable-bg positive-900">                        <i class="icon ion-chatbubbles"></i>                        0                    </a>                </div>            </div>        </div>    </ion-content></ion-view>';
+})(gallery || (gallery = {}));
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../Menu/menu.ts" />
+var App;
+(function (App) {
+    'use strict';
+    var GalleryCtrl = (function () {
+        function GalleryCtrl($scope) {
+            $scope.menu.showHeader();
+            $scope.menu.clearFabs();
+            $scope.isExpanded = true;
+            $scope.menu.setExpanded(true);
+            $scope.menu.setHeaderFab(false);
+            ionic.material.ink.displayEffect();
+            ionic.material.motion.pushDown({
+                selector: '.push-down'
+            });
+            ionic.material.motion.fadeSlideInRight({
+                selector: '.animate-fade-slide-in .item'
+            });
+        }
+        GalleryCtrl.$inject = ['$scope'];
+        return GalleryCtrl;
+    })();
+    App.GalleryCtrl = GalleryCtrl;
+})(App || (App = {}));
+/// <reference path="gallery.html.ts" />
+/// <reference path="gallery-ctrl.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+angular.module('starter')
+    .config(function ($stateProvider) {
+    $stateProvider.state('app.gallery', {
         url: '/gallery',
         views: {
             'menuContent': {
-                templateUrl: 'templates/gallery.html',
-                controller: 'GalleryCtrl'
+                template: gallery.html,
+                controller: 'GalleryCtrl as gallery'
             },
             'fabContent': {
                 template: '<button id="fab-gallery" class="button button-fab button-fab-top-right expanded button-energized-900 drop"><i class="icon ion-heart"></i></button>',
@@ -79,43 +256,118 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                     $timeout(function () {
                         document.getElementById('fab-gallery').classList.toggle('on');
                     }, 600);
-                }
-            }
+                } }
         }
-    })
-
-    .state('app.login', {
+    });
+})
+    .controller('GalleryCtrl', App.GalleryCtrl);
+var login;
+(function (login) {
+    login.html = '<ion-view view-title="Login" align-title="left">    <ion-content style="background: url(img/login.jpg) center; background-size: cover;">        <div class="hero no-header flat">            <div class="content">                <div class="app-icon"></div>                <h1>UP MY CITY</h1>            </div>        </div>        <div class="list">            <ion-md-input placeholder="Username" highlight-color="balanced" type="text"></ion-md-input>            <ion-md-input placeholder="Password" highlight-color="energized" type="password"></ion-md-input>        </div>        <div class="padding">            <button ui-sref="app.profile" class="button button-full button-assertive ink">Login</button>        </div>        <div class="button-bar social-login">            <button class="button button-small button-border icon-left ion-social-google button-assertive-900">Google+</button>            <button class="button button-small button-border icon-left ion-social-twitter button-calm-900">Twitter</button>            <button class="button button-small button-border icon-left ion-social-facebook button-positive-900">Facebook</button>        </div>    </ion-content></ion-view>';
+})(login || (login = {}));
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../Menu/menu.ts" />
+var App;
+(function (App) {
+    'use strict';
+    var LoginCtrl = (function () {
+        function LoginCtrl($scope, $timeout) {
+            $scope.menu.clearFabs();
+            $timeout(function () { return $scope.menu.hideHeader(); }, 0);
+            ionic.material.ink.displayEffect();
+        }
+        LoginCtrl.$inject = ['$scope', '$timeout'];
+        return LoginCtrl;
+    })();
+    App.LoginCtrl = LoginCtrl;
+})(App || (App = {}));
+/// <reference path="login.html.ts" />
+/// <reference path="login-ctrl.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+angular.module('starter')
+    .config(function ($stateProvider) {
+    $stateProvider.state('app.login', {
         url: '/login',
         views: {
             'menuContent': {
-                templateUrl: 'templates/login.html',
-                controller: 'LoginCtrl'
+                template: login.html,
+                controller: 'LoginCtrl as login'
             },
             'fabContent': {
                 template: ''
             }
         }
-    })
-
-    .state('app.profile', {
+    });
+})
+    .controller('LoginCtrl', App.LoginCtrl);
+var profile;
+(function (profile) {
+    profile.html = '<ion-view view-title="Profile">    <ion-content ng-class="{expanded:profile.isExpanded}">        <div class="hero slide-up" style="background-image: url(\'img/profile-bg.jpg\');">            <div class="content">                <div class="avatar" style="background-image: url(\'img/daenerys.jpg\');"></div>                <h3><a class="light">Daenerys Targaryen</a></h3>                <h4>dragon_mommy</h4>            </div>        </div>        <div class="tabs tabs-dark tabs-icon-top static">            <a ui-sref="app.activity" class="tab-item">                <i class="icon ion-arrow-graph-up-right"></i> Activity            </a>            <a ui-sref="app.friends" class="tab-item">                <i class="icon ion-android-people"></i> Friends            </a>            <a ui-sref="app.gallery" class="tab-item">                <i class="icon ion-images"></i> Photos            </a>        </div>        <h4 class="content padding double-padding-x">Following</h4>        <div class="list animate-fade-slide-in-right">            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/jon-snow.jpg">                <h2>Jon Snow</h2>                <p>Da illest illegitimate</p>                <i class="icon ion-chatbubble muted"></i>            </a>            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/sansa.jpg">                <h2>Sansa Stark</h2>                <p>&amp; Joffrey <strike>sitting</strike> sat in a tree</p>                <i class="icon ion-chatbubble muted"></i>            </a>            <a ui-sref="app.friends" class="item item-avatar item-icon-right">                <img src="img/tyrion.jpg">                <h2>Tyrion Lannister</h2>                <p>B.A.M.F. imp</p>                <i class="icon ion-chatbubble muted"></i>            </a>        </div>    </ion-content></ion-view>';
+})(profile || (profile = {}));
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../Menu/menu.ts" />
+var App;
+(function (App) {
+    'use strict';
+    var ProfileCtrl = (function () {
+        function ProfileCtrl($scope, $timeout) {
+            $scope.menu.showHeader();
+            $scope.menu.clearFabs();
+            $scope.isExpanded = false;
+            $scope.menu.setExpanded(false);
+            $scope.menu.setHeaderFab(false);
+            $timeout(function () {
+                return ionic.material.motion.slideUp({
+                    selector: '.slide-up'
+                });
+            }, 300);
+            $timeout(function () {
+                return ionic.material.motion.fadeSlideInRight({
+                    startVelocity: 3000
+                });
+            }, 700);
+            ionic.material.ink.displayEffect();
+        }
+        ProfileCtrl.$inject = ['$scope', '$timeout'];
+        return ProfileCtrl;
+    })();
+    App.ProfileCtrl = ProfileCtrl;
+})(App || (App = {}));
+/// <reference path="profile.html.ts" />
+/// <reference path="profile-ctrl.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+angular.module('starter')
+    .config(function ($stateProvider) {
+    $stateProvider.state('app.profile', {
         url: '/profile',
         views: {
             'menuContent': {
-                templateUrl: 'templates/profile.html',
-                controller: 'ProfileCtrl'
+                template: profile.html,
+                controller: 'ProfileCtrl as profile'
             },
             'fabContent': {
                 template: '<button id="fab-profile" class="button button-fab button-fab-bottom-right button-energized-900"><i class="icon ion-plus"></i></button>',
                 controller: function ($timeout) {
-                    /*$timeout(function () {
+                    $timeout(function () {
                         document.getElementById('fab-profile').classList.toggle('on');
-                    }, 800);*/
+                    }, 800);
                 }
             }
         }
-    })
-    ;
-
-    // if none of the above states are matched, use this as the fallback
+    });
+})
+    .controller('ProfileCtrl', App.ProfileCtrl);
+/// <reference path="app.ts" />
+/// <reference path="menu/menu.ts" />
+/// <reference path="activity/activity.ts" />
+/// <reference path="friends/friends.ts" />
+/// <reference path="gallery/gallery.ts" />
+/// <reference path="login/login.ts" />
+/// <reference path="profile/profile.ts" />
+angular.module('starter')
+    .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/app/login');
 });
+//# sourceMappingURL=app.js.map
